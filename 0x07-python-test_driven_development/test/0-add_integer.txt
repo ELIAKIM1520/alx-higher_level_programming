@@ -1,0 +1,187 @@
+# 0-add_integer.txt
+======================
+
+How to use ``add_integer`` function
+------------------------------------
+
+This module defines an the function eith prototype ``add_integer(a, b=98).
+
+Usage
+=====
+
+``add_integer(...)`` returns the sum of its two arguments. default argument for b is 98. For integers, that value is equivalent to using ``+`` operator:
+ 
+::
+
+    Importing the function add_integer
+    >>> add_integer = __import__('0-add_integer').add_integer
+    >>> add_integer(1, 2)
+    3
+
+    Adding an integer and a float
+    >>> add_integer(2, 3.0) #doctest: +REPORT_NDIFF
+    5
+
+    Adding a float and an integer
+    >>> add_integer(3.0, 3)
+    6
+
+    also works in passing one argument
+    >>> add_integer(2)
+    100
+
+    adds a positive and a negative integer
+    >>> add_integer(2, -4)
+    -2
+
+    Also adds a negative and a positive integer
+    >>> add_integer(-6, 8)
+    2
+    
+    adds an int and a bool value
+    >>> add_integer(4, True)
+    5
+
+    Adds a bool value and an int value
+    >>> add_integer(True, 4)
+    5
+
+    adds two bools
+    >>> add_integer(True, False)
+    1
+    
+    >>> add_integer(False, True)
+    1
+
+    >>> add_integer(True, True)
+    2
+
+    >>> add_integer(False, False)
+    0
+
+    pass one bool argument
+    >>> add_integer(True, )
+    99
+
+    adds integer and a bool
+    >>> add_integer(4, False)
+    4
+
+    >>> add_integer(False, 4)
+    4
+
+    passing a bool argument
+    add_integer(False, )
+    98
+
+    Passing ``None`` as the only argument
+    >>> add_integer(None)
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    passing to add an integer and a None.
+    >>> add_integer(2, None)
+    Traceback (most recent call last):
+        ...
+    TypeError: b must be an integer.
+
+    Adding a set and an integer
+    >>> add_integer({}, 3)
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    Also adding a string and an integer
+    >>> add_integer('n', 3)
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    When adding a tuple and an integer
+    >>> add_integer((), 3)
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    When adding a list and an integer
+    >>> add_integer([], 3)
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    When adding integer and a list
+    >>> add_integer(2, [])
+    Traceback (most recent call last):
+        ...
+    TypeError: b must be an integer
+
+    When adding an integer and a tuple
+    >>> add_integer(2, ())
+    Traceback (most recent call last):
+        ...
+    TypeError: b must be an integer
+
+    When adding an integr and a set as the second argument
+    >>> add_integer(2, {})
+    Traceback (most recent call last):
+        ...
+    TypeError: b must be an integer
+
+    When adding an integer and a string
+    Traceback (most recent call last)
+        ...
+    TypError: b must be an integer
+
+    Passing a tuple as the only argument
+    >>> add_integer((3, 4))
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    if both are non-integers and non-floats, a TypeError meesage is only printed for the first argument 
+
+    ::
+
+    >>> add_integer("hello", "there")
+    Traceback (most recent call last):
+        ...
+    TypeError: a must be an integer
+
+    If infinity is provided it should fail
+
+    >>> add_integer(float('inf'))
+    Traceback (most recent call last):
+        ...
+    OverflowError: cannot convert float infinity to integer
+
+    Also addition of integer and a positive undefined number
+    >>> add_integer(1, float('inf'))
+    Traceback (most recent call last)
+
+   an integr and a negative undefined number
+   >>> add_integer(1, float('-inf'))
+   Traceback (most recent call last):
+       ...
+   OverflowError: cannot convert float infinity to integer
+
+
+    >>> add_integer(float('inf'), 1)
+    Traceback (most recent call last):
+        ...
+    OverflowError: cannot convert float infinity to integer
+
+    >>> add_integer(float('-inf'), 1)
+    Traceback (most recent call last):
+        ...
+    OverflowError: cannot convert float infinity to integer
+
+    >>> add_integer(float('nan'))
+    Traceback (most recent call last):
+        ...
+    valueError: cannot convert float NaN to integer
+
+    >>> add_integer(2, float('nan'))
+    Traceback (most recent call last):
+        ...
+    ValueError: cannot convert float NaN to integer
