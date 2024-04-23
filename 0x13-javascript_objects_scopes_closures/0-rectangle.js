@@ -1,7 +1,4 @@
 #!/usr/bin/node
 
-class Rectangle {
-    //pass
-}
-
-module.exports = Rectangle;
+/*happy coding friends*/
+module.exports = class Rectangle {};
