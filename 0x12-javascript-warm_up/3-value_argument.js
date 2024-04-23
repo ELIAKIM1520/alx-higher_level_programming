@@ -1,16 +1,12 @@
 #!/usr/bin/node
+const array = process.argv.slice(2);
+let count = 0;
 
-argvCount = 0;
-
-for (argvCount in process.argv) {
-    argvCount++;
+array.forEach(() => {
+  count++;
+});
+if (count === 0) {
+  console.log('No argument');
+} else {
+  console.log(array[0]);
 }
-
-if (argvCount <= 2) {
-    console.log('No argument');
-}
-else if (argvCount === 3) {
-    let arg = process.argv[2];
-    console.log(arg);
-}
-
