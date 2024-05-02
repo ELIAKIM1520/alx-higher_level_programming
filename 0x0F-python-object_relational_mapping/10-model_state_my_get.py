@@ -1,32 +1,36 @@
-
 #!/usr/bin/python3
-"""Module that searches for a state in a MySQL database using SQLAlchemy."""
+"""Script that prints the State object with the name passed as argument"""
 import sys
-from sqlalchemy import create_engine
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from model_state import State
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 
-if __name__ == "__main__":
-    # Create the SQLAlchemy engine using the provided MySQL credentials
+Base = declarative_base()
+
+class State(Base):
+    """Define the State class"""
+    __tablename__ = 'states'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128), nullable=False)
+
+def main():
+    """Main function"""
     engine = create_engine("mysql+mysqldb://{}:{}@localhost/{}"
                            .format(sys.argv[1], sys.argv[2], sys.argv[3]),
                            pool_pre_ping=True)
-
-    # Create a session factory
+    Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
-
-    # Create a session object
     session = Session()
-
-    # Search for the specified state in the database
     found = False
     for state in session.query(State):
         if state.name == sys.argv[4]:
-            print("{}".format(state.id))
+            print(state.id)
             found = True
             break
+    if not found:
+        print('Not found')
 
-    # Print a message if the state is not found
-    if found is False:
-        print("Not found")
+if __name__ == '__main__':
+    main()
 
