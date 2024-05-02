@@ -1,23 +1,21 @@
 #!/usr/bin/python3
-"""Module that lists all states from the hbtn_0e_0_usa database."""
-
+""" lists all cities from the database
+Takes 3 arguments
+results must be sorted in ascending order
+"""
 import sys
 import MySQLdb
-
 if __name__ == "__main__":
-    # Get MySQL credentials and search name from command-line arguments
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
-
-    # Connect to MySQL server
-    c = db.cursor()
-
-    # Execute the SQL query to retrieve all states
-    c.execute("SELECT `c`.`id`, `c`.`name`, `s`.`name` \
-                 FROM `cities` as `c` \
-                INNER JOIN `states` as `s` \
-                   ON `c`.`state_id` = `s`.`id` \
-                ORDER BY `c`.`id`")
-
-    # Fetch all rows and print the states
-    [print(city) for city in c.fetchall()]
-
+    db_conn = MySQLdb.connect(
+        host='localhost',
+        user=sys.argv[1],
+        passwd=sys.argv[2],
+        port=3306,
+        db=sys.argv[3]
+    )
+    c = db_conn.cursor()
+    query = """SELECT cities.id, cities.name, states.name FROM states JOIN
+            cities ON states.id=cities.state_id ORDER BY cities.id ASC"""
+    c.execute(query)
+    for city in c.fetchall():
+        print(city)
