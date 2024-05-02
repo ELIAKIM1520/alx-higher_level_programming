@@ -1,27 +1,39 @@
 #!/usr/bin/python3
-"""Module that deletes states containing the letter\
-        "a" from a MySQL database using SQLAlchemy."""
+""" The Script deletes all State objects with the name containing `a` from db"""
 import sys
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
-from model_state import State
+from sqlalchemy.ext.declarative import declarative_base
 
-if __name__ == "__main__":
-    # Create the SQLAlchemy engine using the provided MySQL credentials
-    engine = create_engine("mysql+mysqldb://{}:{}@localhost/{}"
-                           .format(sys.argv[1], sys.argv[2], sys.argv[3]),
-                           pool_pre_ping=True)
+Base = declarative_base()
 
-    # Create a session factory
-    Session = sessionmaker(bind=engine)
-    # Create a session object
-    session = Session()
-    # Retrieve all states from the database
-    for state in session.query(State):
-        # Check if the state's name contains the letter "a"
-        if "a" in state.name:
-            # Delete the state from the session
+class State(Base):
+    """Define the State class"""
+    __tablename__ = 'states'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128), nullable=False)
+
+if __name__ == '__main__':
+    try:
+        engine = create_engine("mysql+mysqldb://{}:{}@localhost/{}"
+                               .format(sys.argv[1], sys.argv[2], sys.argv[3]),
+                               pool_pre_ping=True)
+        Base.metadata.create_all(engine)
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        # Retrieve and delete State objects with names containing 'a'
+        states_with_a = session.query(State).filter(State.name.like('%a%')).all()
+        for state in states_with_a:
             session.delete(state)
-    # Commit the session to persist the changes
-    session.commit()
+        
+        session.commit()
+        print("Deleted State objects with names containing 'a'")
+    
+    except Exception as e:
+        print("An error occurred:", e)
+
+    finally:
+        if session:
+            session.close()
 
